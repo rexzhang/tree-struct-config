@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
-import tree_view_config as module
+import tree_struct_config as module
 
 here = path.abspath(path.dirname(__file__))
 
@@ -18,7 +18,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='TreeViewConfig',
+    name='TreeStructConfig',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
@@ -63,7 +63,7 @@ setup(
     # What does your project relate to?
     keywords='configuration json',
 
-    py_modules=['tree_view_config'],
+    py_modules=['tree_struct_config'],
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
 
     # List run-time dependencies here.  These will be installed by pip when your

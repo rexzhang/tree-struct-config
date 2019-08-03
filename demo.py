@@ -2,7 +2,7 @@
 # coding=utf-8
 
 
-from tree_view_config import (
+from tree_struct_config import (
     IntLeaf,
     StringLeaf,
     BooleanLeaf,

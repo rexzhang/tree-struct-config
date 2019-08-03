@@ -9,6 +9,10 @@ from json import JSONDecodeError
 ROOT_NODE_FUNC_NAME_SET = {'dump', 'dumps', 'load', 'loads'}
 
 
+class ConfigDecodeError(Exception):
+    pass
+
+
 class NodeType(Enum):
     NONE = 0
     LEAF = 2
@@ -80,8 +84,8 @@ class BranchNode(NodeBase, metaclass=BranchNodeMetaClass):
     _node_type = NodeType.BRANCH
 
 
-def _obj2data(cls, is_root_node=False):
-    data = {}
+def tree_struct2obj(cls, is_root_node=False):
+    obj = {}
 
     for child_node_name in dir(cls):
         if child_node_name[0] == '_':
@@ -94,7 +98,7 @@ def _obj2data(cls, is_root_node=False):
 
         if type(child_node) == type(BranchNode):
             # NodeType.BRANCH
-            data[child_node_name] = _obj2data(child_node)
+            obj[child_node_name] = tree_struct2obj(child_node)
 
         # elif type(child_node) == type(RootNode):
         #     # NodeType.ROOT
@@ -104,12 +108,12 @@ def _obj2data(cls, is_root_node=False):
 
         else:
             # NodeType.LEAF
-            data[child_node_name] = child_node
+            obj[child_node_name] = child_node
 
-    return data
+    return obj
 
 
-def _data2obj(cls, data, is_root_node=False):
+def obj2tree_struct(cls, obj, is_root_node=False):
     for child_node_name in dir(cls):
         if child_node_name[0] == '_':
             continue
@@ -121,14 +125,14 @@ def _data2obj(cls, data, is_root_node=False):
 
         if type(child_node) == type(BranchNode):
             # NodeType.BRANCH
-            _data2obj(child_node, data[child_node_name])
+            obj2tree_struct(child_node, obj[child_node_name])
 
         else:
             # NodeType.LEAF
-            if child_node_name not in data:
+            if child_node_name not in obj:
                 continue
 
-            setattr(cls, child_node_name, data[child_node_name])
+            setattr(cls, child_node_name, obj[child_node_name])
 
     return
 
@@ -137,28 +141,28 @@ class RootNode(NodeBase, metaclass=RootNodeMetaClass):
     _node_type = NodeType.ROOT
 
     def dumps(self):
-        data = _obj2data(self, is_root_node=True)
+        obj = tree_struct2obj(self, is_root_node=True)
 
-        return json.dumps(data, indent=2)
-
-    def dump(self, fp):
-        data = _obj2data(self, is_root_node=True)
-
-        return json.dump(obj=data, fp=fp, indent=2)
+        return json.dumps(obj, indent=2)
 
     def loads(self, s):
-        data = json.loads(s)
+        try:
+            obj = json.loads(s)
 
-        _data2obj(self, data, is_root_node=True)
+        except JSONDecodeError as e:
+            raise ConfigDecodeError(e)
+
+        obj2tree_struct(self, obj, is_root_node=True)
+        return
+
+    def dump(self, fp):
+        s = self.dumps()
+
+        fp.write(s)
         return
 
     def load(self, fp):
-        try:
-            data = json.load(fp=fp)
+        s = fp.read()
 
-            _data2obj(self, data, is_root_node=True)
-
-        except JSONDecodeError:
-            pass
-
+        self.loads(s)
         return

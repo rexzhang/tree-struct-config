@@ -1,16 +1,16 @@
-==============
-TreeViewConfig
-==============
+================
+TreeStructConfig
+================
 
-.. image:: https://img.shields.io/pypi/v/TreeViewConfig.svg
-    :target: https://pypi.org/project/TreeViewConfig/
-.. image:: https://img.shields.io/pypi/pyversions/TreeViewConfig.svg
-    :target: https://pypi.org/project/TreeViewConfig/
-.. image:: https://img.shields.io/pypi/dm/TreeViewConfig.svg
-    :target: https://pypi.org/project/TreeViewConfig/
+.. image:: https://img.shields.io/pypi/v/TreeStructConfig.svg
+    :target: https://pypi.org/project/TreeStructConfig/
+.. image:: https://img.shields.io/pypi/pyversions/TreeStructConfig.svg
+    :target: https://pypi.org/project/TreeStructConfig/
+.. image:: https://img.shields.io/pypi/dm/TreeStructConfig.svg
+    :target: https://pypi.org/project/TreeStructConfig/
 
 
-A configuration module for python, support dump from/to JSON.
+Tree Struct Config - A Tree Struct Configuration module for python, support dump from/to JSON.
 
 
 Install
@@ -18,7 +18,7 @@ Install
 
 .. code-block:: console
 
-    pip install TreeViewConfig
+    pip install TreeStructConfig
 
 
 Usage
