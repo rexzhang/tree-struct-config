@@ -24,14 +24,15 @@ Install
 Usage
 =====
 
-Demo Code
----------
+Source code: demo.py_
+
+.. _demo.py: blob/master/demo.py
 
 .. include:: demo.py
     :code: python
+    :number-lines:
 
 Output
-------
 
 .. code-block:: console
 
