@@ -4,6 +4,7 @@
 
 import json
 from enum import Enum
+from json import JSONDecodeError
 
 ROOT_NODE_FUNC_NAME_SET = {'dump', 'dumps', 'load', 'loads'}
 
@@ -151,8 +152,13 @@ class RootNode(NodeBase, metaclass=RootNodeMetaClass):
         _data2obj(self, data, is_root_node=True)
         return
 
-    def load(self, fp, s):
-        data = json.load(fp=fp, s=s)
+    def load(self, fp):
+        try:
+            data = json.load(fp=fp)
 
-        _data2obj(self, data, is_root_node=True)
+            _data2obj(self, data, is_root_node=True)
+
+        except JSONDecodeError:
+            pass
+
         return
