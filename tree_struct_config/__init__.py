@@ -3,7 +3,7 @@
 
 
 """
-Tree Struct Config - A Tree Struct Configuration module for python, support dump from/to JSON.
+Tree Struct Config
 """
 
 from .core import (  # noqa: F401
@@ -23,5 +23,5 @@ __author__ = 'Rex Zhang'
 __author_email__ = 'rex.zhang@gmail.com'
 __licence__ = 'MIT'
 
-__description__ = 'Tree Struct Config - A Tree Struct Configuration module for python, support dump from/to JSON'
+__description__ = 'A Tree Struct Configuration module for python, support dump to/from JSON'
 __project_url__ = 'https://github.com/rexzhang/tree-struct-config'

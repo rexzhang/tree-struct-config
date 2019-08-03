@@ -10,7 +10,7 @@ TreeStructConfig
     :target: https://pypi.org/project/TreeStructConfig/
 
 
-Tree Struct Config - A Tree Struct Configuration module for python, support dump from/to JSON.
+A Tree Struct Configuration module for python, support dump to/from JSON/TOML(todo).
 
 
 Install
@@ -24,71 +24,21 @@ Install
 Usage
 =====
 
-.. code-block:: python
+Demo Code
+---------
 
-    from tree_view_config import RootNode, BranchNode, StringLeaf, IntLeaf, BooleanLeaf
+.. include:: demo.py
+    :code: python
 
+Output
+------
 
-    class Config(RootNode):
-        username = StringLeaf('admin')
-        password = StringLeaf('password')
+.. code-block:: console
 
-        class Auth(BranchNode):
-            username = StringLeaf('admin')
-            password = StringLeaf('password')
-
-        class Wireless(BranchNode):
-            class AP(BranchNode):
-                enabled = BooleanLeaf(True)
-
-                interface = StringLeaf('uap0')  # DON'T CHANGE IT
-                ssid = StringLeaf('PiRouter')
-                password = StringLeaf('password')
-                hw_mode = StringLeaf('n')
-                channel = IntLeaf(1)
-
-            class Client(BranchNode):
-                enabled = BooleanLeaf(False)
-
-                ssid = StringLeaf('ssid')
-                password = StringLeaf('password')
-
-
-    data = '''
-    {
-      "Auth": {
-        "password": "xxxxxxxx",
-        "username": "admin"
-      },
-      "Wireless": {
-        "AP": {
-          "channel": 1,
-          "enabled": true,
-          "hw_mode": "n",
-          "interface": "uap0",
-          "password": "xxxxxxxx",
-          "ssid": "PiRouter"
-        },
-        "Client": {
-          "enabled": false,
-          "password": "xxxxxxxx",
-          "ssid": "ssid"
-        }
-      }
-    }
-
-    '''
-
-    config = Config()
-    print(config.dumps())
-
-    print('--------')
-    config.loads(data)
-    print(config.Wireless.AP.password)
-
-
-.. code-block:: bash
-
+    ----------
+    password
+    new_password
+    ----------
     {
       "Auth": {
         "password": "password",
@@ -98,22 +48,14 @@ Usage
         "AP": {
           "channel": 1,
           "enabled": true,
-          "hw_mode": "n",
-          "interface": "uap0",
-          "password": "password",
-          "ssid": "PiRouter"
-        },
-        "Client": {
-          "enabled": false,
-          "password": "password",
-          "ssid": "ssid"
+          "password": "new_password"
         }
       },
-      "password": "password",
-      "username": "admin"
+      "version": "0.1.0"
     }
-    --------
+    ----------
     xxxxxxxx
+
 
 
 Alternative

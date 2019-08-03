@@ -57,7 +57,7 @@ class LeafNode(NodeBase, metaclass=LeafNodeMetaClass):
         return self.value
 
     def __set__(self, instance, value):
-        print('>>> set', instance, value)
+        # print('>>> set', instance, value)
         self.value = 'value'
 
     # def __delete__(self, instance):
