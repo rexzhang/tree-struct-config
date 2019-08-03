@@ -26,7 +26,7 @@ Usage
 
 Source code: demo.py_
 
-.. _demo.py: blob/master/demo.py
+.. _demo.py: demo.py
 
 .. include:: demo.py
     :code: python
