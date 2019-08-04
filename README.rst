@@ -24,6 +24,108 @@ Install
 Usage
 =====
 
+Create object
+-------------
+
+.. code-block:: python
+    :number-lines:
+
+    class Config(RootNode):
+        version = StringLeaf('0.1.0')
+
+        class Auth(BranchNode):
+            username = StringLeaf('admin')
+
+        class Wireless(BranchNode):
+            class AP(BranchNode):
+                enabled = BooleanLeaf(True)
+                channel = IntLeaf(1)
+                password = StringLeaf('password')
+
+    config = Config()
+
+Access config value
+-------------------
+
+.. code-block:: python
+    :number-lines:
+
+    username = config.Auth.username
+
+Update config value
+-------------------
+
+.. code-block:: python
+    :number-lines:
+
+    config.Auth.username = 'rex'
+    config.Wireless.AP.password = 'new_password'
+
+
+Dump config to JSON
+-------------------
+
+Source code
+
+.. code-block:: python
+    :number-lines:
+
+    print(config.dumps())
+
+Output
+
+.. code-block:: console
+
+    {
+      "version": "0.1.0",
+      "Auth": {
+        "username": "rex"
+      },
+      "Wireless": {
+        "AP": {
+          "channel": 1,
+          "enabled": true,
+          "password": "new_password",
+        }
+      }
+    }
+
+
+Load config from JSON
+---------------------
+
+Source code
+
+.. code-block:: python
+    :number-lines:
+
+    json_str = """
+    {
+      "Auth": {
+        "username": "new_user"
+      },
+      "Wireless": {
+        "AP": {
+          "channel": 1,
+          "enabled": true,
+          "password": "new_password",
+        }
+      }
+    }
+    """
+    config.loads(json_str)
+    print(config.Auth.username")
+
+Output
+
+.. code-block:: console
+
+    new_user
+
+
+Demo
+====
+
 Source code: demo.py_
 
 .. _demo.py: demo.py
@@ -56,7 +158,6 @@ Output
     }
     ----------
     xxxxxxxx
-
 
 
 Alternative

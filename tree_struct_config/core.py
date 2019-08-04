@@ -58,6 +58,7 @@ class LeafNode(NodeBase, metaclass=LeafNodeMetaClass):
 
     def __set__(self, instance, value):
         # print('>>> set', instance, value)
+        # TODO: can't run here at multi-nested, maybe python VM's bug
         self.value = 'value'
 
     # def __delete__(self, instance):
