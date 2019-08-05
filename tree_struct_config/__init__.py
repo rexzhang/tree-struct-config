@@ -25,5 +25,5 @@ __author__ = 'Rex Zhang'
 __author_email__ = 'rex.zhang@gmail.com'
 __licence__ = 'MIT'
 
-__description__ = 'A Tree Struct Configuration module for python, support dump to/from JSON'
+__description__ = 'A Tree Struct Configuration module for python, support dump to/from JSON and TOML'
 __project_url__ = 'https://github.com/rexzhang/tree-struct-config'

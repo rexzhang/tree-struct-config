@@ -10,7 +10,7 @@ TreeStructConfig
     :target: https://pypi.org/project/TreeStructConfig/
 
 
-A Tree Struct Configuration module for python, support dump to/from JSON/TOML(todo).
+A Tree Struct Configuration module for python, support dump to/from JSON and TOML.
 
 
 Install
@@ -42,6 +42,7 @@ Define class and create object
         SerializationDecodeError,
     )
 
+
     class Config(RootNode):
         version = StringLeaf('0.1.0')
 
@@ -66,6 +67,7 @@ Access config value
     >>> config.Auth.username
     rex
     >>> username = config.Auth.username
+    >>> username
     rex
 
 Update config value
