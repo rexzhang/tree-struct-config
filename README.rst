@@ -62,6 +62,7 @@ Define class and create object
 
     config = Config()
 
+
 Access config value
 
     >>> config.Auth.username
@@ -69,6 +70,7 @@ Access config value
     >>> username = config.Auth.username
     >>> username
     rex
+
 
 Update config value
 
@@ -121,15 +123,18 @@ Load config from JSON string
     >>> config.Auth.username
     new_user
 
+
 Dump config to JSON file
 
     >>> with open('config.json', 'w') as f:
     ...     config.dump(f)
 
+
 Load config from JSON file
 
     >>> with open('config.json') as f:
     ...     config.load(f)
+
 
 Dump to TOML and load from TOML string and file
 
@@ -140,6 +145,22 @@ Dump to TOML and load from TOML string and file
     ...     config.dump(f, serialization_format=SerializationFormat.TOML)
     >>> with open('config.toml') as f:
     ...     config.load(f, serialization_format=SerializationFormat.TOML)
+
+config.toml
+
+.. code-block:: text
+
+    version = "0.1.0"
+
+    [Auth]
+    password = "password"
+    username = "rex"
+
+    [Wireless.AP]
+    channel = 1
+    enabled = true
+    mac_acl_list = [ "00:00:00:00:00:00",]
+    password = "password"
 
 
 Override ``dump()`` and ``load()`` function
@@ -172,13 +193,12 @@ Override ``dump()`` and ``load()`` function
     advanced_config.load()
 
 
-Full Demo
-=========
+Demo
+====
 
-Source code: demo.py_
+Demo source code: demo.py_
 
 .. _demo.py: demo.py
-
 
 Output
 
@@ -207,7 +227,6 @@ Output
     }
     ----------
     xxxxxxxx
-
 
 
 Alternative
