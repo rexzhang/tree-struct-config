@@ -18,14 +18,13 @@ Install
 
 .. code-block:: console
 
-    pip install TreeStructConfig
+    pip install -U TreeStructConfig
 
 
 Usage
 =====
 
-Create object
--------------
+Define class and create object
 
 .. code-block:: python
     :number-lines:
@@ -34,7 +33,7 @@ Create object
         version = StringLeaf('0.1.0')
 
         class Auth(BranchNode):
-            username = StringLeaf('admin')
+            username = StringLeaf('rex')
 
         class Wireless(BranchNode):
             class AP(BranchNode):
@@ -45,62 +44,27 @@ Create object
     config = Config()
 
 Access config value
--------------------
 
-.. code-block:: python
-    :number-lines:
-
-    username = config.Auth.username
+    >>> config.Auth.username
+    rex
+    >>> username = config.Auth.username
+    rex
 
 Update config value
--------------------
 
-.. code-block:: python
-    :number-lines:
+    >>> config.Auth.username = 'new_user'
+    >>> config.Auth.username
+    new_user
+    >>> config.Wireless.AP.password = 'new_password'
+    >>> config.Wireless.AP.password
+    new_password
 
-    config.Auth.username = 'rex'
-    config.Wireless.AP.password = 'new_password'
 
+Dump config to JSON string
 
-Dump config to JSON
--------------------
-
-code
-
-.. code-block:: python
-    :number-lines:
-
-    print(config.dumps())
-
-output
-
-.. code-block:: console
-
+    >>> config.dumps()
     {
-      "version": "0.1.0",
-      "Auth": {
-        "username": "rex"
-      },
-      "Wireless": {
-        "AP": {
-          "channel": 1,
-          "enabled": true,
-          "password": "new_password",
-        }
-      }
-    }
-
-
-Load config from JSON
----------------------
-
-code
-
-.. code-block:: python
-    :number-lines:
-
-    json_str = """
-    {
+      "version": "0.2.0",
       "Auth": {
         "username": "new_user"
       },
@@ -112,27 +76,89 @@ code
         }
       }
     }
-    """
-    config.loads(json_str)
-    print(config.Auth.username")
 
-output
 
-.. code-block:: console
+Load config from JSON string
 
+    >>> json_str = """
+    ...     {
+    ...       "Auth": {
+    ...         "username": "new_user"
+    ...       },
+    ...       "Wireless": {
+    ...         "AP": {
+    ...           "channel": 1,
+    ...           "enabled": true,
+    ...           "password": "new_password",
+    ...         }
+    ...       }
+    ...     }
+    ... """
+    ...
+    >>> config.Auth.username
+    rex
+    >>> config.loads(json_str)
+    >>> config.Auth.username
     new_user
 
+Dump config to JSON file
 
-Demo
-====
+    >>> with open('config.json', 'w') as f:
+    ...     config.dump(f)
+
+Load config from JSON file
+
+    >>> with open('config.json') as f:
+    ...     config.load(f)
+
+Dump to TOML and load from TOML string and file
+
+    >>> config.dumps(serialization_format=SerializationFormat.TOML)
+    >>> config.loads(s, serialization_format=SerializationFormat.TOML)
+
+    >>> with open('config.toml', 'w') as f:
+    ...     config.dump(f, serialization_format=SerializationFormat.TOML)
+    >>> with open('config.toml') as f:
+    ...     config.load(f, serialization_format=SerializationFormat.TOML)
+
+
+Override ``dump()`` and ``load()`` function
+
+.. code-block:: python
+    :number-lines:
+
+    class AdvancedConfig(Config):
+        """override dump/load function"""
+        _filename = None
+
+        def dump(self, fp=None, serialization_format=None):
+            with open(self._filename, 'w') as fp:
+                super().dump(fp, serialization_format)
+
+            return
+
+        def load(self, fp=None, serialization_format=None):
+            with open(self._filename) as fp:
+                try:
+                    super().load(fp, serialization_format)
+
+                except SerializationDecodeError:
+                    pass
+
+
+    advanced_config = AdvancedConfig()
+    advanced_config._filename = 'config.json'
+    advanced_config.dump()
+    advanced_config.load()
+
+
+Full Demo
+=========
 
 Source code: demo.py_
 
 .. _demo.py: demo.py
 
-.. include:: demo.py
-    :code: python
-    :number-lines:
 
 Output
 
@@ -145,7 +171,7 @@ Output
     {
       "Auth": {
         "password": "password",
-        "username": "admin"
+        "username": "rex"
       },
       "Wireless": {
         "AP": {

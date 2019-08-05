@@ -20,7 +20,7 @@ class Config(RootNode):
     version = StringLeaf('0.1.0')
 
     class Auth(BranchNode):
-        username = StringLeaf('admin')
+        username = StringLeaf('rex')
         password = StringLeaf('password')
 
     class Wireless(BranchNode):
