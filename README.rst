@@ -29,17 +29,35 @@ Define class and create object
 .. code-block:: python
     :number-lines:
 
+    from tree_struct_config import (
+        IntLeaf,
+        StringLeaf,
+        BooleanLeaf,
+        ListLeaf,
+
+        BranchNode,
+
+        RootNode,
+        SerializationFormat,
+        SerializationDecodeError,
+    )
+
     class Config(RootNode):
         version = StringLeaf('0.1.0')
 
         class Auth(BranchNode):
             username = StringLeaf('rex')
+            password = StringLeaf('password')
 
         class Wireless(BranchNode):
             class AP(BranchNode):
                 enabled = BooleanLeaf(True)
                 channel = IntLeaf(1)
                 password = StringLeaf('password')
+                mac_acl_list = ListLeaf([
+                    '00:00:00:00:00:00',
+                ])
+
 
     config = Config()
 
@@ -177,6 +195,9 @@ Output
         "AP": {
           "channel": 1,
           "enabled": true,
+          "mac_acl_list": [
+            "00:00:00:00:00:00"
+          ],
           "password": "new_password"
         }
       },
@@ -184,6 +205,7 @@ Output
     }
     ----------
     xxxxxxxx
+
 
 
 Alternative

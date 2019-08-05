@@ -28,9 +28,9 @@ class Config(RootNode):
             enabled = BooleanLeaf(True)
             channel = IntLeaf(1)
             password = StringLeaf('password')
-
-        class Client(BranchNode):
-            client_list = ListLeaf([1, 2, 3])
+            mac_acl_list = ListLeaf([
+                '00:00:00:00:00:00',
+            ])
 
 
 class AdvancedConfig(Config):
