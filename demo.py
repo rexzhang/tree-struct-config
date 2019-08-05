@@ -6,11 +6,13 @@ from tree_struct_config import (
     IntLeaf,
     StringLeaf,
     BooleanLeaf,
+    ListLeaf,
 
     BranchNode,
-    RootNode,
 
-    ConfigDecodeError,
+    RootNode,
+    SerializationFormat,
+    SerializationDecodeError,
 )
 
 
@@ -27,23 +29,26 @@ class Config(RootNode):
             channel = IntLeaf(1)
             password = StringLeaf('password')
 
+        class Client(BranchNode):
+            client_list = ListLeaf([1, 2, 3])
+
 
 class AdvancedConfig(Config):
     """override dump/load function"""
     _filename = None
 
-    def dump(self, fp=None):
+    def dump(self, fp=None, serialization_format=None):
         with open(self._filename, 'w') as fp:
-            super().dump(fp)
+            super().dump(fp, serialization_format)
 
         return
 
-    def load(self, fp=None):
+    def load(self, fp=None, serialization_format=None):
         with open(self._filename) as fp:
             try:
-                super().load(fp)
+                super().load(fp, serialization_format)
 
-            except ConfigDecodeError:
+            except SerializationDecodeError:
                 pass
 
 
@@ -96,6 +101,6 @@ with open('demo.json') as f:
 
 # override dump/load func
 advanced_config = AdvancedConfig()
-advanced_config._filename = 'demo.json'
-advanced_config.dump()
-advanced_config.load()
+advanced_config._filename = 'demo.toml'
+advanced_config.dump(serialization_format=SerializationFormat.TOML)
+advanced_config.load(serialization_format=SerializationFormat.TOML)

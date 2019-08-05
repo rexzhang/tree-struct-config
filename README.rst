@@ -65,14 +65,14 @@ Update config value
 Dump config to JSON
 -------------------
 
-Source code
+code
 
 .. code-block:: python
     :number-lines:
 
     print(config.dumps())
 
-Output
+output
 
 .. code-block:: console
 
@@ -94,7 +94,7 @@ Output
 Load config from JSON
 ---------------------
 
-Source code
+code
 
 .. code-block:: python
     :number-lines:
@@ -116,7 +116,7 @@ Source code
     config.loads(json_str)
     print(config.Auth.username")
 
-Output
+output
 
 .. code-block:: console
 

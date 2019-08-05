@@ -9,7 +9,12 @@ from json import JSONDecodeError
 ROOT_NODE_FUNC_NAME_SET = {'dump', 'dumps', 'load', 'loads'}
 
 
-class ConfigDecodeError(Exception):
+class SerializationFormat(Enum):
+    JSON = 1
+    TOML = 2
+
+
+class SerializationDecodeError(ValueError):
     pass
 
 
@@ -42,24 +47,25 @@ class RootNodeMetaClass(type):
 
 class LeafNode(NodeBase, metaclass=LeafNodeMetaClass):
     _node_type = NodeType.LEAF
-    default = None
-    value = None
+
+    _value = None
+    _default_value = None
 
     def __init__(self, default=None):
         if default is None:
-            self.value = self.default
+            self._value = self._default_value
 
         else:
-            self.value = default
+            self._value = default
 
     def __get__(self, instance, owner):
         # print('<<< get', instance, owner)
-        return self.value
+        return self._value
 
     def __set__(self, instance, value):
         # print('>>> set', instance, value)
-        # TODO: can't run here at multi-nested, maybe python VM's bug
-        self.value = 'value'
+        # TODO: can't run to here at multi-nested mode, maybe python VM's bug
+        self._value = value
 
     # def __delete__(self, instance):
     #     print('!!! delete')
@@ -70,15 +76,19 @@ class LeafNode(NodeBase, metaclass=LeafNodeMetaClass):
 
 
 class IntLeaf(LeafNode):
-    default = 0
+    _default_value = 0
 
 
 class StringLeaf(LeafNode):
-    default = ''
+    _default_value = ''
 
 
 class BooleanLeaf(LeafNode):
-    default = False
+    _default_value = False
+
+
+class ListLeaf(LeafNode):
+    _default_value = list()
 
 
 class BranchNode(NodeBase, metaclass=BranchNodeMetaClass):
@@ -140,29 +150,64 @@ def obj2tree_struct(cls, obj, is_root_node=False):
 
 class RootNode(NodeBase, metaclass=RootNodeMetaClass):
     _node_type = NodeType.ROOT
+    _serialization_format = SerializationFormat.JSON
 
-    def dumps(self):
+    def __init__(self, serialization_format=SerializationFormat.JSON):
+        if isinstance(serialization_format, SerializationFormat):
+            self._serialization_format = serialization_format
+
+    def dumps(self, serialization_format=None):
+        if isinstance(serialization_format, SerializationFormat):
+            self._serialization_format = serialization_format
+
         obj = tree_struct2obj(self, is_root_node=True)
 
-        return json.dumps(obj, indent=2)
+        if self._serialization_format == SerializationFormat.TOML:
+            import toml
 
-    def loads(self, s):
-        try:
-            obj = json.loads(s)
+            s = toml.dumps(obj)
 
-        except JSONDecodeError as e:
-            raise ConfigDecodeError(e)
+        else:
+            s = json.dumps(obj, indent=2)
+
+        return s
+
+    def loads(self, s, serialization_format=None):
+        if isinstance(serialization_format, SerializationFormat):
+            self._serialization_format = serialization_format
+
+        if self._serialization_format == SerializationFormat.TOML:
+            import toml
+
+            try:
+                obj = toml.loads(s)
+
+            except toml.TomlDecodeError as e:
+                raise SerializationDecodeError(e)
+
+        else:
+            try:
+                obj = json.loads(s)
+
+            except JSONDecodeError as e:
+                raise SerializationDecodeError(e)
 
         obj2tree_struct(self, obj, is_root_node=True)
         return
 
-    def dump(self, fp):
+    def dump(self, fp, serialization_format=None):
+        if isinstance(serialization_format, SerializationFormat):
+            self._serialization_format = serialization_format
+
         s = self.dumps()
 
         fp.write(s)
         return
 
-    def load(self, fp):
+    def load(self, fp, serialization_format=None):
+        if isinstance(serialization_format, SerializationFormat):
+            self._serialization_format = serialization_format
+
         s = fp.read()
 
         self.loads(s)

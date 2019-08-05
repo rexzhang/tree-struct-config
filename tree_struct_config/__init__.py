@@ -10,11 +10,13 @@ from .core import (  # noqa: F401
     IntLeaf,
     StringLeaf,
     BooleanLeaf,
+    ListLeaf,
 
     BranchNode,
-    RootNode,
 
-    ConfigDecodeError,
+    RootNode,
+    SerializationFormat,
+    SerializationDecodeError,
 )
 
 __version__ = '0.1.0'
