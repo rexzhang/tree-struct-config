@@ -193,7 +193,7 @@ class RootNode(NodeBase, metaclass=RootNodeMetaClass):
                 raise SerializationDecodeError(e)
 
         obj2tree_struct(self, obj, is_root_node=True)
-        return
+        return obj
 
     def dump(self, fp, serialization_format=None):
         if isinstance(serialization_format, SerializationFormat):

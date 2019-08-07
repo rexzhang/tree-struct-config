@@ -16,9 +16,17 @@ A Tree Struct Configuration module for python, support serialization to/from JSO
 Install
 =======
 
+Serialization with JSON
+
 .. code-block:: console
 
     pip install -U TreeStructConfig
+
+Serialization with TOML
+
+.. code-block:: console
+
+    pip install -U TreeStructConfig[toml]
 
 
 Usage
@@ -27,7 +35,6 @@ Usage
 Define class and create object
 
 .. code-block:: python
-    :number-lines:
 
     from tree_struct_config import (
         IntLeaf,
@@ -170,7 +177,6 @@ config.toml
 Override ``dump()`` and ``load()`` function
 
 .. code-block:: python
-    :number-lines:
 
     class AdvancedConfig(Config):
         """override dump/load function"""
@@ -200,9 +206,7 @@ Override ``dump()`` and ``load()`` function
 Demo
 ====
 
-Demo source code: demo.py_
-
-.. _demo.py: demo.py
+Demo source code: https://github.com/rexzhang/tree-struct-config/blob/master/demo.py
 
 Output
 
