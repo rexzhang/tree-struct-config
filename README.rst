@@ -10,7 +10,7 @@ TreeStructConfig
     :target: https://pypi.org/project/TreeStructConfig/
 
 
-A Tree Struct Configuration module for python, support dump to/from JSON and TOML.
+A Tree Struct Configuration module for python, support serialization to/from JSON and TOML.
 
 
 Install
@@ -86,17 +86,21 @@ Dump config to JSON string
 
     >>> config.dumps()
     {
-      "version": "0.2.0",
       "Auth": {
-        "username": "new_user"
+        "password": "password",
+        "username": "rex"
       },
       "Wireless": {
         "AP": {
           "channel": 1,
           "enabled": true,
-          "password": "new_password",
+          "mac_acl_list": [
+            "00:00:00:00:00:00"
+          ],
+          "password": "new_password"
         }
-      }
+      },
+      "version": "0.1.0"
     }
 
 
