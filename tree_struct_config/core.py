@@ -141,9 +141,14 @@ def obj2tree_struct(cls, obj, is_root_node=False):
         else:
             # NodeType.LEAF
             if child_node_name not in obj:
-                continue
+                node = getattr(cls, child_node_name)
+                if not isinstance(node, LeafNode):
+                    continue
 
-            setattr(cls, child_node_name, obj[child_node_name])
+                setattr(cls, child_node_name, node._value)
+
+            else:
+                setattr(cls, child_node_name, obj[child_node_name])
 
     return
 
