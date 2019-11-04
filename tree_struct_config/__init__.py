@@ -19,7 +19,7 @@ from .core import (  # noqa: F401
     SerializationDecodeError,
 )
 
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 
 __author__ = 'Rex Zhang'
 __author_email__ = 'rex.zhang@gmail.com'
