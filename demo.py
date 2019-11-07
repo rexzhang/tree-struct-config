@@ -32,6 +32,11 @@ class Config(RootNode):
                 '00:00:00:00:00:00',
             ])
 
+    class NotExistBranch(BranchNode):
+        pass
+
+    not_exist_leaf = StringLeaf()
+
 
 class AdvancedConfig(Config):
     """override dump/load function"""

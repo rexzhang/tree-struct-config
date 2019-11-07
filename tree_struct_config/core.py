@@ -125,6 +125,9 @@ def tree_struct2obj(cls, is_root_node=False):
 
 
 def obj2tree_struct(cls, obj, is_root_node=False):
+    if obj is None:
+        return
+
     for child_node_name in dir(cls):
         if child_node_name[0] == '_':
             continue
@@ -135,8 +138,7 @@ def obj2tree_struct(cls, obj, is_root_node=False):
         child_node = getattr(cls, child_node_name)
 
         if type(child_node) == type(BranchNode):
-            # NodeType.BRANCH
-            obj2tree_struct(child_node, obj[child_node_name])
+            obj2tree_struct(child_node, obj.get(child_node_name))
 
         else:
             # NodeType.LEAF
