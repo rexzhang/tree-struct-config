@@ -237,6 +237,25 @@ Output
     xxxxxxxx
 
 
+Changelog
+=========
+
+0.2.2
+-----
+* Fix not exist branch crash
+
+0.2.1
+-----
+* Fix bug
+
+0.2.0
+-----
+* Support TOML format file
+
+0.1.0
+-----
+* First release
+
 Alternative
 ===========
 
