@@ -8,23 +8,23 @@ from tree_struct_config import (
     BooleanLeaf,
     ListLeaf,
 
-    BranchNode,
+    Branch,
 
-    RootNode,
+    Root,
     SerializationFormat,
     SerializationDecodeError,
 )
 
 
-class Config(RootNode):
+class Config(Root):
     version = StringLeaf('0.1.0')
 
-    class Auth(BranchNode):
+    class Auth(Branch):
         username = StringLeaf('rex')
         password = StringLeaf('password')
 
-    class Wireless(BranchNode):
-        class AP(BranchNode):
+    class Wireless(Branch):
+        class AP(Branch):
             enabled = BooleanLeaf(True)
             channel = IntLeaf(1)
             password = StringLeaf('password')
@@ -32,7 +32,7 @@ class Config(RootNode):
                 '00:00:00:00:00:00',
             ])
 
-    class NotExistBranch(BranchNode):
+    class NotExistBranch(Branch):
         pass
 
     not_exist_leaf = StringLeaf()

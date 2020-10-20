@@ -14,9 +14,9 @@ from tree_struct_config import (
     BooleanLeaf,
     ListLeaf,
 
-    BranchNode,
+    Branch,
 
-    RootNode,
+    Root,
     SerializationFormat,
     SerializationDecodeError,
 )
@@ -53,7 +53,7 @@ class ConfigException(Exception):
     pass
 
 
-class UpstreamResolver(RootNode):
+class UpstreamResolver(Root):
     # name = StringLeaf('default')
     # type = DNSResolverType.UDP.name
     # ip_address = StringLeaf(RESOLVER_DEFAULT_UPSTREAM_IP_ADDRESS_V4)
@@ -99,22 +99,22 @@ class UpstreamResolver(RootNode):
         )
 
 
-class Config(RootNode):
-    class Common(BranchNode):
+class Config(Root):
+    class Common(Branch):
         sentry_dsn = StringLeaf()
 
-    class Service(BranchNode):
+    class Service(Branch):
         bind = StringLeaf(DEFAULT_HOST)
         port = IntLeaf(DEFAULT_PORT)
 
-    class Cache(BranchNode):
+    class Cache(Branch):
         uri = StringLeaf(CACHE_DEFAULT_URI)
         storage_lifetime = IntLeaf(CACHE_DEFAULT_STORAGE_LIFETIME)
 
-    class FakeDNS(BranchNode):
+    class FakeDNS(Branch):
         a_record = ListLeaf()
 
-    class Default(BranchNode):
+    class Default(Branch):
         resolver = StringLeaf('default')
 
     UpstreamResolver = ListLeaf()
