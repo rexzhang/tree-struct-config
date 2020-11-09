@@ -240,6 +240,10 @@ Output
 Changelog
 =========
 
+0.2.3
+-----
+* Add new implement, depend typing hint(draft)
+
 0.2.2
 -----
 * Fix not exist branch crash

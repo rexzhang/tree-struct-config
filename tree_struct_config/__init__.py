@@ -24,7 +24,7 @@ from .core2 import (  # noqa: F401
     OtherNode,
 )
 
-__version__ = '0.2.2'
+__version__ = '0.2.3'
 
 __author__ = 'Rex Zhang'
 __author_email__ = 'rex.zhang@gmail.com'

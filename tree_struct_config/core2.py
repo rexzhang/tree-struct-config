@@ -1,5 +1,6 @@
 import json
-from typing import Optional, IO
+from os import PathLike
+from typing import Optional, Union, IO
 
 from .core import SerializationFormat, SerializationDecodeError
 from .exceptiones import ConfigFileException
@@ -20,7 +21,7 @@ class Root(Node):
 
     def __init__(
         self,
-        file: Optional[str] = None,
+        file: Union[PathLike, str] = None,
         serialization: SerializationFormat = None,
     ):
         if serialization is not None:
