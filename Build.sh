@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-pip install -U wheel pip
+pip install -U wheel pip twine
 
 
 rm -rf build dist

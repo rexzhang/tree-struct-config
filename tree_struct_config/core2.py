@@ -103,7 +103,7 @@ class Root(Node):
             close_fp_before_return = True
             try:
                 fp = open(self._file)
-            except FileNotFoundError as e:
+            except (FileNotFoundError, TypeError) as e:
                 raise ConfigFileException(e)
         else:
             close_fp_before_return = False
